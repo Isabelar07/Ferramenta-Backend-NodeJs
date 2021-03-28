@@ -15,9 +15,9 @@ export class TagController {
 
         try {
 
-            const { tag } = req.body as ITag
+            const tags = req.body
 
-            await tagBusiness.create({tag})
+            await tagBusiness.create(tags)
 
             res.status(201).send({message: 'tag created sucessfully'});
 

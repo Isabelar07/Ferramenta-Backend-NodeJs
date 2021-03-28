@@ -13,7 +13,7 @@ export class TagDataBase extends DataBase {
             await DataBase.connection()
             .insert({
                 id: tag.id,
-                tag: tag.tag
+                tags: tag.tags
             }).into(TagDataBase.TABLE_NAME);
 
         } catch (error) {
@@ -21,6 +21,30 @@ export class TagDataBase extends DataBase {
                 throw new DuplicateEntryError();
             }
             
+            throw new BaseError(error.message || error.sqlMessage);
+        }
+    }
+
+    async get(): Promise<ITag[]> {
+
+        try {
+
+            const result = await DataBase.connection()
+            .select('*')
+            .from(TagDataBase.TABLE_NAME);
+
+            const tags: ITag[] = [];
+
+            for (let tag of result) {
+                tags.push({
+                    id: tag.id,
+                    tags: tag.tags
+                });
+            }
+
+            return tags;
+
+        } catch (error) {
             throw new BaseError(error.message || error.sqlMessage);
         }
     }
