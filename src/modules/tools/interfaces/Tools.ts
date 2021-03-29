@@ -14,3 +14,11 @@ export interface IToolInputDTO {
     description: string,
     tags: string[]
 }
+
+export interface IToolOutputDTO {
+    title: string,
+    link: string,
+    description: string,
+    tags: string[],
+    id: string
+}
