@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { IdGenerator } from "../../../shared/infra/services/IdGenerator";
 import { TagBusiness } from "../business/TagBusiness";
 import { TagDataBase } from "../data/TagDataBase";
-import { ITag } from '../interfaces/Tag';
 
 const tagBusiness = new TagBusiness (
     new TagDataBase(),
