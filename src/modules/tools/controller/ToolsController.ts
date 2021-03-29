@@ -4,7 +4,7 @@ import { TagBusiness } from '../../tags/business/TagBusiness';
 import { TagDataBase } from '../../tags/data/TagDataBase';
 import { ToolsBusiness } from "../business/ToolsBusiness";
 import { ToolsDataBase } from "../data/ToolsDataBase";
-import { IToolInputDTO } from '../interfaces/Tools';
+import { IToolInputDTO, IToolOutputDTO } from '../interfaces/Tools';
 
 const toolsBusiness = new ToolsBusiness(
     new ToolsDataBase(),
@@ -27,7 +27,15 @@ export class ToolsController {
                 tags
             })
 
-            return res.status(201).send({tool: toolData})
+            const output: IToolOutputDTO = {
+                title: title,
+                link: link,
+                description: description,
+                tags: toolData.tags.map(t=>t.tags),
+                id: toolData.id, 
+            }
+
+            return res.status(201).send(output)
 
         } catch (error) {
             return res.status(500).send({ error: error.message });
