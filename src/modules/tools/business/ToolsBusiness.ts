@@ -4,7 +4,7 @@ import { TagBusiness } from "../../tags/business/TagBusiness";
 import { TagDataBase } from "../../tags/data/TagDataBase";
 import { ITag } from "../../tags/interfaces/Tag";
 import { ToolsDataBase } from "../data/ToolsDataBase";
-import { IToolInputDTO } from "../interfaces/Tools";
+import { ITool, IToolInputDTO, IToolOutputDTO } from "../interfaces/Tools";
 
 export class ToolsBusiness {
     constructor(
@@ -13,7 +13,7 @@ export class ToolsBusiness {
         private idGenerator: IdGenerator
     ) {}
 
-    async create(input: IToolInputDTO): Promise<void> {
+    async create(input: IToolInputDTO): Promise<ITool> {
 
         if (!input.title || !input.link || !input.description || !input.tags.length) {
             throw new InvalidInputError('Invalid entry for registration. Enter the title, link, description and tag.')
@@ -33,12 +33,12 @@ export class ToolsBusiness {
 
         const id = this.idGenerator.generate();
 
-        const tools = {
+        const tools: ITool = {
             id,
             title: input.title,
             link: input.link,
             description: input.description,
-            tag: checkedTag,
+            tags: checkedTag,
             
         }
 
