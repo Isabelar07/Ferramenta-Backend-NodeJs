@@ -6,9 +6,8 @@ import { ITool } from "../interfaces/Tools";
 export class ToolsDataBase extends DataBase {
 
     private static TABLE_NAME = 'Tools';
-    private static INTER_TABLE_NAME = 'Tools_And_Tag';
 
-    async create(tool: ITool): Promise<void> {
+    async create(tool: ITool): Promise<ITool> {
 
         try {
             await DataBase.connection()
@@ -18,16 +17,15 @@ export class ToolsDataBase extends DataBase {
                 link: tool.link,
                 description: tool.description
             }).into(ToolsDataBase.TABLE_NAME);
-
+            
             if (tool.tags) {
                 for (let tag of tool.tags) {
-                    await DataBase.connection()
-                    .insert({
-                        tools_id: tool.id,
-                        tag_id: tag.id
-                    }).into(ToolsDataBase.INTER_TABLE_NAME)
+                    await DataBase.connection
+                    .raw(`INSERT INTO Tools_And_Tag (tag_id, tools_id) VALUES ("${tag.id}", "${tool.id}")`)
                 }
             }
+
+            return tool
 
         } catch (error) {
             if (error.errno === 1062) {
