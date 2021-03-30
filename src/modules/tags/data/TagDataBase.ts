@@ -13,7 +13,7 @@ export class TagDataBase extends DataBase {
             await DataBase.connection()
             .insert({
                 id: tag.id,
-                tags: tag.tags
+                name: tag.name
             }).into(TagDataBase.TABLE_NAME);
 
         } catch (error) {
@@ -38,7 +38,7 @@ export class TagDataBase extends DataBase {
             for (let tag of result) {
                 tags.push({
                     id: tag.id,
-                    tags: tag.tags
+                    name: tag.name
                 });
             }
 
