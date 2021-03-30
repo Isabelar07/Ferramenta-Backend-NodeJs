@@ -6,3 +6,7 @@ export interface ITag {
 export interface ITagOutputDTO {
     name: string
 }
+
+export interface ITagOutputQueryDTO {
+    name: string[]
+}
