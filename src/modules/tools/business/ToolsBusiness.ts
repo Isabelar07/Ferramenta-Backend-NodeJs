@@ -1,7 +1,7 @@
+import { BaseError } from "../../../shared/infra/error/BaseError";
 import { InvalidInputError } from "../../../shared/infra/error/InvalidInputError";
 import { IdGenerator } from "../../../shared/infra/services/IdGenerator";
 import { TagBusiness } from "../../tags/business/TagBusiness";
-import { TagDataBase } from "../../tags/data/TagDataBase";
 import { ITag } from "../../tags/interfaces/Tag";
 import { ToolsDataBase } from "../data/ToolsDataBase";
 import { ITool, IToolInputDTO, IToolOutputDTO } from "../interfaces/Tools";
@@ -22,7 +22,7 @@ export class ToolsBusiness {
         const existingTag = await this.tagBusiness.get();
 
         const checkedTag = existingTag.filter((tag: ITag) => {
-            return input.tags.includes(tag.tags)
+            return input.tags.includes(tag.name)
         });
 
         if (checkedTag.length < 1) {
@@ -44,6 +44,17 @@ export class ToolsBusiness {
 
         return await this.toolsDataBase.create(tools)
 
+    }
+
+    async get(): Promise<IToolOutputDTO[]> {
+
+        const tools: IToolOutputDTO[] = await this.toolsDataBase.get();
+
+        if (!tools) {
+            throw new BaseError('No tools have been created yet')
+        }
+
+        return tools
     }
 
 }
