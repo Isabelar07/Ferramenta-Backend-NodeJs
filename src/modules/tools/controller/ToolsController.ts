@@ -31,11 +31,24 @@ export class ToolsController {
                 title: title,
                 link: link,
                 description: description,
-                tags: toolData.tags.map(t=>t.tags),
-                id: toolData.id, 
+                tags: toolData.tags.map(t=>t.name),
+                id: toolData.id 
             }
 
             return res.status(201).send(output)
+
+        } catch (error) {
+            return res.status(500).send({ error: error.message });
+        }
+    }
+
+    async get(req: Request, res: Response) {
+
+        try {
+
+            const tools = await toolsBusiness.get()
+
+            return res.status(200).send(tools)
 
         } catch (error) {
             return res.status(500).send({ error: error.message });
