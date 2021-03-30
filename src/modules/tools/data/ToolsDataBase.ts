@@ -83,4 +83,55 @@ export class ToolsDataBase extends DataBase {
         }
     }
 
+    async getByTag(tag: string): Promise<IToolOutputDTO[]>{
+
+        try {
+
+            const result = await DataBase.connection.raw(`
+            SELECT tl*
+            FROM ${ToolsDataBase.TABLE_NAME} tl
+            JOIN ${ToolsDataBase.INTER_TABLE_NAME} tltg
+            ON tl.id = tltg.tools_id
+            JOIN Tag tg
+            ON tltg.tag_id = tg.id
+            WHERE tg.name = "${tag}"
+            `)
+
+            const tools: IToolOutputDTO[] = [];
+
+            for (let tool of result) {
+
+                const tags: ITagOutputDTO[] = [];
+
+                const toolTag = await DataBase.connection.raw(`
+                SELECT tg.name
+                FROM ${ToolsDataBase.TABLE_NAME} tl
+                JOIN ${ToolsDataBase.INTER_TABLE_NAME} tltg
+                ON tl.id = tltg.tools_id
+                JOIN Tag tg
+                ON tltg.tag_id = tg.id
+                WHERE tl.id = "${tool.id}"
+                `);
+
+                for (let tag of toolTag[0]) {
+                    tags.push({name: tag.name});
+                }
+
+                tools.push({
+                    id: tool.id,
+                    title: tool.title,
+                    link: tool.link,
+                    description: tool.description,
+                    tags: tags.map(t => t.name)
+                });
+                
+            }
+
+            return tools
+
+        } catch (error) {
+            throw new BaseError(error.message || error.sqlMessage);
+        }
+    }
+
 }

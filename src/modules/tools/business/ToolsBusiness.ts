@@ -57,4 +57,19 @@ export class ToolsBusiness {
         return tools
     }
 
+    async getByTag(tag: string): Promise<IToolOutputDTO[]> {
+
+        if (!tag) {
+            throw new InvalidInputError('Invalid Input. Insert the tag.')
+        }
+
+        const tools: IToolOutputDTO[] = await this.toolsDataBase.getByTag(tag);
+
+        if (!tools) {
+            throw new BaseError('No tools have been created yet')
+        }
+
+        return tools
+    }
+
 }
