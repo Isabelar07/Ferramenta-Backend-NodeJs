@@ -1,4 +1,8 @@
 export interface ITag {
     id: string,
-    tags: string
+    name: string
+}
+
+export interface ITagOutputDTO {
+    name: string
 }

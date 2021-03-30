@@ -20,9 +20,9 @@ export class TagBusiness {
     
             const id = await this.idGenerator.generate();
     
-            const tag = {
+            const tag: ITag = {
                 id,
-                tags: tags
+                name: tags
             }
             
             const tagDataBase = new TagDataBase()
