@@ -2,10 +2,11 @@ import { Request, Response } from 'express';
 import { IdGenerator } from "../../../shared/infra/services/IdGenerator";
 import { TagBusiness } from '../../tags/business/TagBusiness';
 import { TagDataBase } from '../../tags/data/TagDataBase';
-import { ITagOutputQueryDTO } from '../../tags/interfaces/Tag';
 import { ToolsBusiness } from "../business/ToolsBusiness";
 import { ToolsDataBase } from "../data/ToolsDataBase";
 import { IToolInputDTO, IToolOutputDTO } from '../interfaces/Tools';
+
+//TODO: resolver: quando a primeira ferramenta foi criada não apareceu a tag, somente nas outras que aparecerão. Fazer funcionar: filtrar ferramentas por tag e deletar ferramenta pelo id
 
 const toolsBusiness = new ToolsBusiness(
     new ToolsDataBase(),
@@ -56,6 +57,21 @@ export class ToolsController {
         }
     }
 
+    async delById(req: Request, res: Response) {
+
+        try {
+
+            const { id } = req.params
+
+            await toolsBusiness.delById(id);
+
+            return res.status(204).send({message: 'tool successfully deleted.'});
+
+        } catch (error) {
+            return res.status(500).send({ error: error.message });
+        }
+    }
+
     // async getByTag(req: Request, res: Response) {
 
     //     try {
@@ -65,7 +81,7 @@ export class ToolsController {
     //         const tags = await toolsBusiness.getByTag({tag})
 
     //         // const output: ITagOutputQueryDTO {
-    //         //     name: tags.tag.map(t => t.name)
+    //             name: tags.tag.map(t => t.name)
     //         // }
 
     //         return res.status(200).send(tags)
@@ -74,4 +90,5 @@ export class ToolsController {
     //         return res.status(500).send({ error: error.message });
     //     }
     // }
+
 }

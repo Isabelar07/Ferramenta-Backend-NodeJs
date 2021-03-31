@@ -72,4 +72,13 @@ export class ToolsBusiness {
         return tools
     }
 
+    async delById(id: string): Promise<any> {
+
+        if(!id) {
+            throw new InvalidInputError('Enter the tool id by params ')
+        }
+
+        return await this.toolsDataBase.delById(id)
+    }
+
 }
