@@ -62,7 +62,7 @@ DB_NAME = nome do banco de dados
 ### Ferramentas
 ```sql
 CREATE TABLE Tools (
-   id VARCHAR(255) PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(80) UNIQUE NOT NULL,
     link VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL
@@ -73,15 +73,15 @@ CREATE TABLE Tools (
 ### Tags
 ```sql
 CREATE TABLE Tag (
-   id VARCHAR(255) PRIMARY KEY,
-    tags VARCHAR(50) UNIQUE NOT NULL
+    id VARCHAR(255) PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
 );
 ```
 
 ### Tag e Ferramentas
 ```sql
 CREATE TABLE Tools_And_Tag (
-   tools_id VARCHAR(255) PRIMARY KEY,
+    tools_id VARCHAR(255) PRIMARY KEY,
     tag_id VARCHAR(255) NOT NULL,
     FOREIGN KEY(tools_id) REFERENCES Tag(id),
     FOREIGN KEY(tag_id) REFERENCES Tools(id)
