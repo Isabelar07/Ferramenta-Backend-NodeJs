@@ -134,4 +134,17 @@ export class ToolsDataBase extends DataBase {
         }
     }
 
+    async delById(id: string): Promise<any> {
+
+        const result = await DataBase.connection.
+        raw(`
+        DELETE Tools, Tools_And_Tag FROM Tools
+        INNER JOIN Tools_And_Tag
+        ON Tools.id = Tools_And_Tag.tools_id
+        WHERE Tools.id = "${id}" 
+        `);
+    
+        return result[0]
+    }
+
 }
