@@ -56,6 +56,21 @@ export class ToolsController {
         }
     }
 
+    async delById(req: Request, res: Response) {
+
+        try {
+
+            const { id } = req.params
+
+            await toolsBusiness.delById(id);
+
+            return res.status(204).send({message: 'tool successfully deleted.'});
+
+        } catch (error) {
+            return res.status(500).send({ error: error.message });
+        }
+    }
+
     // async getByTag(req: Request, res: Response) {
 
     //     try {
@@ -74,4 +89,5 @@ export class ToolsController {
     //         return res.status(500).send({ error: error.message });
     //     }
     // }
+
 }
